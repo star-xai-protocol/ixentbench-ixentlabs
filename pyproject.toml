@@ -1,0 +1,58 @@
+[build-system]
+requires = ["setuptools>=68", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "ixentbench"
+version = "1.0.44"
+description = "The AI benchmark beyond memorization — Causal spatial reasoning at 4×10⁸⁵ scale"
+readme = "README.md"
+# Cambiamos esto para que apunte al archivo físico:
+license = { file = "LICENSE" }
+authors = [{ name = "iXentLabs (iXent Games SL)", email = "contact@ixentlabs.com" }]
+requires-python = ">=3.10"
+keywords = ["ai", "benchmark", "reasoning", "llm", "evaluation"]
+classifiers = [
+    "License :: Other/Proprietary License",
+    "Development Status :: 5 - Production/Stable",
+    "Intended Audience :: Developers",
+    "Intended Audience :: Science/Research",
+    "Topic :: Scientific/Engineering :: Artificial Intelligence",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+]
+dependencies = [
+    "click>=8.1",
+    "requests>=2.31",
+    "python-dotenv>=1.0",
+    "google-genai>=1.0",
+    "google-auth>=2.28",
+    "google-auth-oauthlib>=1.2",
+    "anthropic>=0.34",
+    "openai>=1.40",
+]
+
+[project.optional-dependencies]
+anthropic = ["anthropic>=0.25"]
+openai    = ["openai>=1.30"]    
+
+[project.scripts]
+ixentbench = "ixentbench.cli:main"
+
+[project.urls]
+Homepage      = "https://ixentlabs.com"
+Repository    = "https://github.com/ixentlabs/ixentbench"
+Documentation = "https://github.com/ixentlabs/ixentbench#readme"
+
+[tool.setuptools.packages.find]
+where   = ["."]
+include = ["ixentbench*"]
+
+[tool.setuptools]
+include-package-data = true
+
+[tool.setuptools.package-data]
+# Esto dice: "En el paquete ixentbench, incluye todos los .html y .md"
+ixentbench = ["*.html", "*.md"]

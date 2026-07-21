@@ -1,0 +1,824 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>iXentBench™ — Arena Game Rules</title>
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            background: #0f0f1a;
+            color: #e0e0e0;
+            display: flex;
+        }
+
+        /* ── SIDEBAR ── */
+        #sidebar {
+            position: fixed;
+            top: 0; left: 0;
+            width: 250px;
+            height: 100vh;
+            background: #1a1a2e;
+            border-right: 1px solid #2a2a4a;
+            overflow-y: auto;
+            padding: 20px 0;
+            z-index: 100;
+        }
+        #sidebar .logo {
+            padding: 0 20px 16px;
+            border-bottom: 1px solid #2a2a4a;
+            margin-bottom: 12px;
+        }
+        #sidebar .logo h2 { font-size: 0.9em; color: #f59e0b; }
+        #sidebar .logo p  { font-size: 0.72em; color: #666; margin-top: 3px; }
+        #sidebar a {
+            display: block;
+            padding: 7px 20px;
+            color: #888;
+            text-decoration: none;
+            font-size: 0.82em;
+            border-left: 3px solid transparent;
+            transition: all 0.2s;
+        }
+        #sidebar a:hover, #sidebar a.active {
+            color: #f59e0b;
+            border-left-color: #f59e0b;
+            background: rgba(245,158,11,0.07);
+        }
+        #sidebar a.head { color: #ccc; font-weight: 600; font-size: 0.88em; margin-top: 8px; }
+        #sidebar a.sub  { padding-left: 32px; font-size: 0.78em; }
+
+        /* ── MAIN ── */
+        #main {
+            margin-left: 250px;
+            padding: 40px 50px 80px;
+            max-width: 900px;
+            width: 100%;
+        }
+
+        /* ── HEADER ── */
+        .page-header {
+            text-align: center;
+            padding: 30px 0 40px;
+            border-bottom: 1px solid #2a2a4a;
+            margin-bottom: 50px;
+        }
+        .page-header h1 { font-size: 2em; color: #f59e0b; margin-bottom: 8px; }
+        .page-header p  { color: #777; font-size: 0.95em; }
+        .badge {
+            display: inline-block;
+            background: rgba(245,158,11,0.12);
+            border: 1px solid #f59e0b;
+            color: #f59e0b;
+            padding: 4px 14px;
+            border-radius: 20px;
+            font-size: 0.78em;
+            margin-top: 12px;
+        }
+
+        /* ── SECTIONS ── */
+        .section { margin-bottom: 55px; }
+        .section-header {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 22px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid #2a2a4a;
+        }
+        .s-num {
+            background: #f59e0b;
+            color: #0f0f1a;
+            width: 30px; height: 30px;
+            border-radius: 50%;
+            display: flex; align-items: center; justify-content: center;
+            font-weight: bold; font-size: 0.85em;
+            flex-shrink: 0;
+        }
+        .section-header h2 { color: #f59e0b; font-size: 1.15em; }
+        .section-header .tag {
+            margin-left: auto;
+            font-size: 0.72em; color: #f59e0b;
+            background: rgba(245,158,11,0.1);
+            padding: 3px 10px; border-radius: 10px;
+        }
+
+        /* ── DIAGRAMS ── */
+        .diagrams {
+            display: flex; gap: 28px; flex-wrap: wrap;
+            align-items: flex-start;
+            background: #13131f;
+            border: 1px solid #2a2a4a;
+            border-radius: 10px;
+            padding: 24px;
+            margin-bottom: 28px;
+        }
+        .diag-block { flex: 1; min-width: 180px; }
+        .diag-block h3 { color: #666; font-size: 0.75em; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 10px; }
+        .diag-legend { margin-top: 12px; font-size: 0.78em; color: #888; }
+        .diag-legend span { display: block; margin: 3px 0; }
+
+        /* ── CODE ── */
+        .code {
+            background: #0a0a14;
+            border: 1px solid #2a2a4a;
+            border-radius: 8px;
+            padding: 18px 22px;
+            font-family: 'Courier New', Consolas, monospace;
+            font-size: 0.83em;
+            line-height: 1.75;
+            color: #a8ff78;
+            white-space: pre-wrap;
+            word-break: break-word;
+            margin-bottom: 18px;
+        }
+        .code .c  { color: #6a9955; }
+        .code .kw { color: #569cd6; }
+        .code .st { color: #ce9178; }
+        .code .w  { color: #f59e0b; }
+        .code .ok { color: #4ec9b0; }
+        .code .er { color: #f44747; }
+        .code .p1 { color: #6c63ff; }
+        .code .p2 { color: #f44747; }
+        .code .p3 { color: #4ec9b0; }
+        .code .p4 { color: #a78bfa; }
+
+        /* ── ALERTS ── */
+        .alert { border-radius: 8px; padding: 13px 17px; margin-bottom: 16px; font-size: 0.88em; line-height: 1.5; }
+        .alert-w { background: rgba(245,158,11,0.08); border-left: 4px solid #f59e0b; color: #fcd34d; }
+        .alert-i { background: rgba(108,99,255,0.08); border-left: 4px solid #6c63ff; color: #a78bfa; }
+        .alert-g { background: rgba(78,201,176,0.08); border-left: 4px solid #4ec9b0; color: #4ec9b0; }
+        .alert-r { background: rgba(244,71,71,0.08);  border-left: 4px solid #f44747; color: #f87171; }
+
+        /* ── PROSE ── */
+        .prose { color: #bbb; line-height: 1.7; font-size: 0.9em; margin-bottom: 14px; }
+        .prose strong { color: #ddd; }
+
+        /* ── TABLES ── */
+        table { width: 100%; border-collapse: collapse; margin-bottom: 18px; font-size: 0.85em; }
+        th { background: #1a1a2e; color: #f59e0b; padding: 10px 14px; text-align: left; border-bottom: 2px solid #2a2a4a; }
+        td { padding: 10px 14px; border-bottom: 1px solid #1e1e30; color: #bbb; vertical-align: top; }
+        tr:hover td { background: rgba(245,158,11,0.04); }
+        .pn { color: #f59e0b; font-weight: bold; }
+        code { background: #1a1a2e; color: #a8ff78; padding: 2px 6px; border-radius: 4px; font-size: 0.9em; font-family: monospace; }
+
+        /* ── PLAYER CARDS ── */
+        .player-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 16px;
+            margin-bottom: 24px;
+        }
+        .player-card {
+            background: #13131f;
+            border: 1px solid #2a2a4a;
+            border-radius: 10px;
+            padding: 16px 20px;
+        }
+        .player-card h3 { font-size: 0.95em; margin-bottom: 8px; }
+        .player-card p  { font-size: 0.82em; color: #888; line-height: 1.5; }
+        .p1-card { border-left: 4px solid #6c63ff; }
+        .p2-card { border-left: 4px solid #f44747; }
+        .p3-card { border-left: 4px solid #4ec9b0; }
+        .p4-card { border-left: 4px solid #a78bfa; }
+        .p1-card h3 { color: #6c63ff; }
+        .p2-card h3 { color: #f44747; }
+        .p3-card h3 { color: #4ec9b0; }
+        .p4-card h3 { color: #a78bfa; }
+
+        /* ── STRATEGY CARDS ── */
+        .strategy-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 14px;
+            margin-bottom: 24px;
+        }
+        .strategy-card {
+            background: #13131f;
+            border: 1px solid #2a2a4a;
+            border-radius: 10px;
+            padding: 14px 18px;
+        }
+        .strategy-card h3 { font-size: 0.88em; color: #f59e0b; margin-bottom: 6px; }
+        .strategy-card p  { font-size: 0.8em; color: #888; line-height: 1.5; }
+
+        /* ── FOOTER ── */
+        .footer {
+            text-align: center; padding: 30px 0;
+            color: #444; font-size: 0.78em;
+            border-top: 1px solid #2a2a4a; margin-top: 50px;
+        }
+
+        ::-webkit-scrollbar { width: 5px; }
+        ::-webkit-scrollbar-track { background: #0f0f1a; }
+        ::-webkit-scrollbar-thumb { background: #2a2a4a; border-radius: 3px; }
+    </style>
+</head>
+<body>
+
+<nav id="sidebar">
+    <div class="logo">
+        <h2>iXentBench™ Arena</h2>
+        <p>Game Rules — Arena Edition</p>
+    </div>
+    <a href="#intro" class="head">🎯 Introduction</a>
+    <a href="#board-overview" class="head">📐 Board Overview</a>
+    <a href="#players" class="head">👥 Players & Roles</a>
+    <a href="#part1" class="head">Part 1 — Physics</a>
+    <a href="#blocks" class="sub">Blocks & Networks</a>
+    <a href="#gears" class="sub">Gear Types</a>
+    <a href="#mechanics" class="sub">Placement & Rotation</a>
+    <a href="#mice" class="sub">Mice & Scoring</a>
+    <a href="#part2" class="head">Part 2 — Board Reading</a>
+    <a href="#encoding" class="sub">Board Encoding</a>
+    <a href="#mice-states" class="sub">Mice States</a>
+    <a href="#part3" class="head">Part 3 — Game Modes</a>
+    <a href="#ffa" class="sub">Free For All</a>
+    <a href="#team" class="sub">2v2 Team</a>
+    <a href="#humanvsai" class="sub">Human vs AI</a>
+    <a href="#lobby" class="sub">Room Lobby</a>
+    <a href="#part4" class="head">Part 4 — Strategy</a>
+    <a href="#game-theory" class="sub">Game Theory</a>
+    <a href="#priorities" class="sub">Priority Tree</a>
+    <a href="#patterns" class="sub">Placement Patterns</a>
+    <a href="#part5" class="head">Part 5 — Commands</a>
+    <a href="#syntax" class="sub">Command Syntax</a>
+    <a href="#examples" class="sub">Examples</a>
+</nav>
+
+<div id="main">
+
+    <!-- HEADER -->
+    <div class="page-header" id="intro">
+        <h1>⚔️ iXentBench™ Arena Rules</h1>
+        <p>The complete guide to multiplayer Arena mode: physics, scoring, game theory and commands.</p>
+        <p style="margin-top:6px; color:#555; font-size:0.85em;">For players, researchers and Custom Agent (Option C) developers.</p>
+        <span class="badge">PLAYER EDITION — ARENA MODE</span>
+    </div>
+
+    <!-- BOARD OVERVIEW -->
+    <div class="section" id="board-overview">
+        <div class="section-header">
+            <div class="s-num">📐</div>
+            <h2>Board Quick Reference</h2>
+            <span class="tag">VISUAL</span>
+        </div>
+        <div class="diagrams">
+            <!-- Board grid 4x4 -->
+            <div class="diag-block">
+                <h3>Level 1 — 4×4 Grid</h3>
+                <svg viewBox="0 0 240 240" width="220" height="220" xmlns="http://www.w3.org/2000/svg">
+                    <!-- Grid -->
+                    <rect x="20" y="0" width="220" height="220" fill="#0d0d1a" stroke="#2a2a4a" stroke-width="1"/>
+                    <!-- Row 4 -->
+                    <rect x="20"  y="0"   width="55" height="55" fill="#1a1a2e" stroke="#3a3a6a"/>
+                    <rect x="75"  y="0"   width="55" height="55" fill="#2a1a1a" stroke="#3a3a6a"/>
+                    <rect x="130" y="0"   width="55" height="55" fill="#1a1a2e" stroke="#3a3a6a"/>
+                    <rect x="185" y="0"   width="55" height="55" fill="#2a1a1a" stroke="#3a3a6a"/>
+                    <!-- Row 3 -->
+                    <rect x="20"  y="55"  width="55" height="55" fill="#2a1a1a" stroke="#3a3a6a"/>
+                    <rect x="75"  y="55"  width="55" height="55" fill="#1a1a2e" stroke="#3a3a6a"/>
+                    <rect x="130" y="55"  width="55" height="55" fill="#2a1a1a" stroke="#3a3a6a"/>
+                    <rect x="185" y="55"  width="55" height="55" fill="#1a1a2e" stroke="#3a3a6a"/>
+                    <!-- Row 2 -->
+                    <rect x="20"  y="110" width="55" height="55" fill="#1a1a2e" stroke="#3a3a6a"/>
+                    <rect x="75"  y="110" width="55" height="55" fill="#2a1a1a" stroke="#3a3a6a"/>
+                    <rect x="130" y="110" width="55" height="55" fill="#1a1a2e" stroke="#3a3a6a"/>
+                    <rect x="185" y="110" width="55" height="55" fill="#2a1a1a" stroke="#3a3a6a"/>
+                    <!-- Row 1 -->
+                    <rect x="20"  y="165" width="55" height="55" fill="#2a1a1a" stroke="#3a3a6a"/>
+                    <rect x="75"  y="165" width="55" height="55" fill="#1a1a2e" stroke="#3a3a6a"/>
+                    <rect x="130" y="165" width="55" height="55" fill="#2a1a1a" stroke="#3a3a6a"/>
+                    <rect x="185" y="165" width="55" height="55" fill="#1a1a2e" stroke="#3a3a6a"/>
+                    <!-- Labels -->
+                    <text x="47"  y="21"  text-anchor="middle" fill="#6c63ff" font-size="9" font-family="monospace">P14 L</text>
+                    <text x="102" y="21"  text-anchor="middle" fill="#f59e0b" font-size="9" font-family="monospace">P24 R</text>
+                    <text x="157" y="21"  text-anchor="middle" fill="#6c63ff" font-size="9" font-family="monospace">P34 L</text>
+                    <text x="212" y="21"  text-anchor="middle" fill="#f59e0b" font-size="9" font-family="monospace">P44 R</text>
+                    <text x="47"  y="76"  text-anchor="middle" fill="#f59e0b" font-size="9" font-family="monospace">P13 R</text>
+                    <text x="102" y="76"  text-anchor="middle" fill="#6c63ff" font-size="9" font-family="monospace">P23 L</text>
+                    <text x="157" y="76"  text-anchor="middle" fill="#f59e0b" font-size="9" font-family="monospace">P33 R</text>
+                    <text x="212" y="76"  text-anchor="middle" fill="#6c63ff" font-size="9" font-family="monospace">P43 L</text>
+                    <text x="47"  y="131" text-anchor="middle" fill="#6c63ff" font-size="9" font-family="monospace">P12 L</text>
+                    <text x="102" y="131" text-anchor="middle" fill="#f59e0b" font-size="9" font-family="monospace">P22 R</text>
+                    <text x="157" y="131" text-anchor="middle" fill="#6c63ff" font-size="9" font-family="monospace">P32 L</text>
+                    <text x="212" y="131" text-anchor="middle" fill="#f59e0b" font-size="9" font-family="monospace">P42 R</text>
+                    <text x="47"  y="186" text-anchor="middle" fill="#f59e0b" font-size="9" font-family="monospace">P11 R</text>
+                    <text x="102" y="186" text-anchor="middle" fill="#6c63ff" font-size="9" font-family="monospace">P21 L</text>
+                    <text x="157" y="186" text-anchor="middle" fill="#f59e0b" font-size="9" font-family="monospace">P31 R</text>
+                    <text x="212" y="186" text-anchor="middle" fill="#6c63ff" font-size="9" font-family="monospace">P41 L</text>    
+                </svg>
+                <div class="diag-legend">
+                    <span style="color:#6c63ff">■ Type R — x+y is EVEN</span>
+                    <span style="color:#f59e0b">■ Type L — x+y is ODD</span>
+                    <span style="color:#6c63ff">↑ P1 starts Row 1 (South)</span>
+                    <span style="color:#f44747">↓ P2 starts Row 4 (North)</span>
+                    <span style="color:#4ec9b0">← P3 starts Column 4 (East)</span>
+                    <span style="color:#a78bfa">→ P4 starts Column 1 (West)</span>
+                </div>
+            </div>
+
+            <!-- Levels -->
+            <div class="diag-block">
+                <h3>Arena Levels</h3>
+                <svg viewBox="0 0 200 200" width="190" height="200" xmlns="http://www.w3.org/2000/svg">
+                    <rect x="10" y="10"  width="40" height="40" rx="4" fill="#1a1a2e" stroke="#f59e0b" stroke-width="2"/>
+                    <rect x="60" y="5"   width="50" height="50" rx="4" fill="#1a1a2e" stroke="#f59e0b" stroke-width="2"/>
+                    <rect x="120" y="0"  width="60" height="60" rx="4" fill="#1a1a2e" stroke="#f59e0b" stroke-width="2"/>
+                    <rect x="10" y="120" width="75" height="75" rx="4" fill="#1a1a2e" stroke="#f59e0b" stroke-width="1" stroke-dasharray="4,3"/>
+                    <text x="30"  y="35"  text-anchor="middle" fill="#f59e0b" font-size="10" font-family="monospace">4×4</text>
+                    <text x="85"  y="35"  text-anchor="middle" fill="#f59e0b" font-size="10" font-family="monospace">6×6</text>
+                    <text x="150" y="35"  text-anchor="middle" fill="#f59e0b" font-size="10" font-family="monospace">8×8</text>
+                    <text x="47"  y="163" text-anchor="middle" fill="#555"    font-size="10" font-family="monospace">10×10</text>
+                    <text x="30"  y="50"  text-anchor="middle" fill="#888"    font-size="8"  font-family="monospace">L1</text>
+                    <text x="85"  y="52"  text-anchor="middle" fill="#888"    font-size="8"  font-family="monospace">L2</text>
+                    <text x="150" y="58"  text-anchor="middle" fill="#888"    font-size="8"  font-family="monospace">L3</text>
+                    <text x="47"  y="178" text-anchor="middle" fill="#555"    font-size="8"  font-family="monospace">L4</text>
+                </svg>
+                <div class="diag-legend">
+                    <span style="color:#f59e0b">Level 1 → 4×4  (16 tiles)</span>
+                    <span style="color:#f59e0b">Level 2 → 6×6  (36 tiles)</span>
+                    <span style="color:#f59e0b">Level 3 → 8×8  (64 tiles)</span>
+                    <span style="color:#555">Level 4 → 10×10 (100 tiles)</span>
+                    <span style="margin-top:6px">No obstacles in L1–L3.</span>
+                    <span>Level 4 (10×10): 4 obstacles at center.</span>
+                    <span>No entropy events in Arena.</span>
+                    <span>No ideal_moves metric in Arena.</span>
+                    <span style="color:#555">L4 center obstacles ensure</span>
+                    <span style="color:#555">96 tiles ÷ 4 players = 24 each.</span>
+                </div>
+            </div>
+
+            <!-- Block concept -->
+            <div class="diag-block">
+                <h3>Block / Island Concept</h3>
+                <svg viewBox="0 0 200 180" width="190" height="180" xmlns="http://www.w3.org/2000/svg">
+                    <rect x="10"  y="60"  width="50" height="50" rx="4" fill="#1a1a3e" stroke="#6c63ff" stroke-width="2"/>
+                    <rect x="60"  y="60"  width="50" height="50" rx="4" fill="#1a1a3e" stroke="#6c63ff" stroke-width="2"/>
+                    <rect x="60"  y="10"  width="50" height="50" rx="4" fill="#1a1a3e" stroke="#6c63ff" stroke-width="2"/>
+                    <line x1="60" y1="85" x2="60" y2="85" stroke="#6c63ff" stroke-width="3"/>
+                    <text x="35"  y="90"  text-anchor="middle" fill="#6c63ff" font-size="9" font-family="monospace">G2</text>
+                    <text x="85"  y="90"  text-anchor="middle" fill="#6c63ff" font-size="9" font-family="monospace">G4</text>
+                    <text x="85"  y="40"  text-anchor="middle" fill="#6c63ff" font-size="9" font-family="monospace">G2</text>
+                    <text x="60"  y="155" text-anchor="middle" fill="#6c63ff" font-size="9" font-family="monospace">BLOCK A (P1)</text>
+                    <rect x="130" y="60"  width="50" height="50" rx="4" fill="#1a2a1a" stroke="#f44747" stroke-width="2"/>
+                    <rect x="130" y="110" width="50" height="50" rx="4" fill="#1a2a1a" stroke="#f44747" stroke-width="2"/>
+                    <text x="155" y="90"  text-anchor="middle" fill="#f44747" font-size="9" font-family="monospace">G3</text>
+                    <text x="155" y="140" text-anchor="middle" fill="#f44747" font-size="9" font-family="monospace">G1</text>
+                    <text x="155" y="172" text-anchor="middle" fill="#f44747" font-size="9" font-family="monospace">BLOCK B (P2)</text>
+                </svg>
+                <div class="diag-legend">
+                    <span style="color:#6c63ff">Rotating any gear in Block A</span>
+                    <span style="color:#6c63ff">rotates ALL gears in Block A.</span>
+                    <span style="color:#f44747">Block B is independent.</span>
+                    <span style="margin-top:6px; color:#f59e0b">MERGE: connect blocks to</span>
+                    <span style="color:#f59e0b">share or sabotage rotation.</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- PLAYERS & ROLES -->
+    <div class="section" id="players">
+        <div class="section-header">
+            <div class="s-num">👥</div>
+            <h2>Players, Roles & Starting Zones</h2>
+            <span class="tag">ROLES</span>
+        </div>
+        <p class="prose">Each player starts from a different edge of the board and must move their mice to the <strong>opposite edge</strong>. All four players share the same board simultaneously.</p>
+        <div class="player-grid">
+            <div class="player-card p1-card">
+                <h3>🟣 P1 — South → North</h3>
+                <p>Starts: Row 1 (y=1) — South edge.<br>
+                Target: Row max-Y — North edge.<br>
+                Forward direction: <strong>0° (Up)</strong><br>
+                Exit: last row on North side. +10 pts.</p>
+            </div>
+            <div class="player-card p2-card">
+                <h3>🔴 P2 — North → South</h3>
+                <p>Starts: Row max-Y — North edge.<br>
+                Target: Row 1 (y=1) — South edge.<br>
+                Forward direction: <strong>180° (Down)</strong><br>
+                Exit: row 1 on South side. +10 pts.</p>
+            </div>
+            <div class="player-card p3-card">
+                <h3>🟢 P3 — East → West</h3>
+                <p>Starts: Column max-X — East edge.<br>
+                Target: Column 1 (x=1) — West edge.<br>
+                Forward direction: <strong>90° (Left)</strong><br>
+                Exit: column 1 on West side. +10 pts.</p>
+            </div>
+            <div class="player-card p4-card">
+                <h3>🟤 P4 — West → East</h3>
+                <p>Starts: Column 1 (x=1) — West edge.<br>
+                Target: Column max-X — East edge.<br>
+                Forward direction: <strong>270° (Right)</strong><br>
+                Exit: last column on East side. +10 pts.</p>
+            </div>
+        </div>
+        <div class="alert alert-w">
+            ⚠️ All board coordinates use the <strong>P1-centric convention</strong>: 0°=North, 90°=West, 180°=South, 270°=East. If you are P2, P3 or P4, mentally translate your forward direction accordingly.
+        </div>
+    </div>
+
+    <!-- PART 1 -->
+    <div class="section" id="part1">
+        <div class="section-header">
+            <div class="s-num">1</div>
+            <h2>Part 1: Game Physics</h2>
+            <span class="tag">PHYSICS</span>
+        </div>
+
+        <div id="blocks">
+            <p class="prose"><strong>Blocks and Independent Networks</strong></p>
+            <p class="prose">This is the key difference between Solo and Arena. In Solo, all gears eventually form one connected network. In Arena, players can maintain <strong>isolated blocks</strong> — physically disconnected gear networks. Rotating a gear only propagates to gears in the same block.</p>
+            <div class="code"><span class="w">Block Physics — Rotation propagation:</span>
+  Rotating a gear propagates ONLY to physically adjacent gears.
+  Gears not touching the rotating block are NOT affected.
+
+  Within a block:
+    Same topology (R or R, L or L) → rotate in same direction.
+    Opposite topology (R vs L)     → rotate in reverse direction.
+
+<span class="c">-- Strategic implications --</span>
+  ISOLATE:  keep your block separate from opponents → safe, predictable.
+  MERGE:    connect to opponent's block → you gain control of their gears.
+  SABOTAGE: rotate a merged block to push opponent mice backward.
+
+<span class="c">-- Obstacles in Arena --</span>
+  Levels 1–3: all tiles are valid gear positions.
+  Level 4 (10×10): 4 fixed obstacles at the center of the board.
+    → 96 playable tiles, divisible by 4 players.
+  No [EVENT] entropy events occur in any Arena level.</div>
+        </div>
+
+        <div id="gears">
+            <p class="prose"><strong>Gear Types and Inventory</strong></p>
+            <table>
+                <thead><tr><th>Type</th><th>Bases</th><th>Orientations</th><th>Initial Code</th></tr></thead>
+                <tbody>
+                    <tr><td><code>G1</code></td><td>1 Base</td><td>0°</td><td><code>B0222</code></td></tr>
+                    <tr><td><code>G2</code></td><td>2 Opposite</td><td>0°, 180°</td><td><code>B0202</code></td></tr>
+                    <tr><td><code>G3</code></td><td>3 "T" shape</td><td>90°, 180°, 270°</td><td><code>B2000</code></td></tr>
+                    <tr><td><code>G4</code></td><td>4 Full Cross</td><td>0°, 90°, 180°, 270°</td><td><code>B0000</code></td></tr>
+                </tbody>
+            </table>
+            <div class="alert alert-i">
+                💡 <strong>Bxxxx Encoding:</strong> 4-digit code for orientations 0°/90°/180°/270°.
+                <code>0</code> = base exists and is EMPTY &nbsp;|&nbsp;
+                <code>1</code> = base occupied by a MOUSE &nbsp;|&nbsp;
+                <code>2</code> = NO base at this orientation
+            </div>
+        </div>
+
+        <div id="mechanics">
+            <p class="prose"><strong>Placement Rules and Game Phases</strong></p>
+            <div class="code"><span class="w">Placement conditions (strict):</span>
+  1. First gear MUST be placed in your designated starting zone (see player roles above).
+  2. Subsequent gears MUST be adjacent to an existing gear in YOUR network.
+  3. Choose initial rotation 'b' BEFORE applying the ±90° turn.
+  4. Players take turns in rotation order: P1 → P2 → P3 → P4 → P1...
+
+<span class="kw">PHASE 1 — PLACEMENT</span> (while inventory > 0):
+  ALL moves must place a gear.
+  Syntax:  G&lt;Type&gt;@P&lt;XY&gt;(b=0...3)&lt;Turn&gt;
+  Example: G4@P12(b=2)-90
+
+<span class="kw">PHASE 2 — ROTATION</span> (when inventory = 0):
+  Simple:   G@P&lt;XY&gt;&lt;Turn&gt;
+  Example:  G@P22+90
+
+  Pre-Move: G@P&lt;XY&gt;:b=&lt;N&gt; ; G@P&lt;XY&gt;&lt;Turn&gt;
+  Example:  G@P13:b=1 ; G@P21+90
+
+Turn direction:
+  +90° = Counter-Clockwise (Left)
+  -90° = Clockwise (Right)</div>
+            <div class="alert alert-w">
+                ⚠️ Your turn has a <strong>10-minute hard limit</strong>. If no valid move is submitted in time, the server declares game over (TIMEOUT) for that player.
+            </div>
+        </div>
+
+        <div id="mice">
+            <p class="prose"><strong>Mice Physics and Scoring</strong></p>
+            <div class="alert alert-w">⚠️ CRITICAL TIMING RULE: Jumps occur IMMEDIATELY AFTER the turn, EXCEPT Entry Jumps (starting row), which occur BEFORE the turn.</div>
+            <div class="code"><span class="c">-- Scoring (same points for all players; direction of "forward" differs) --</span>
+  Forward  jump (toward your exit):  +10 pts
+  Backward jump (away from exit):    -10 pts
+  Lateral  jump:                      +5 pts
+  Board Exit (mouse rescued):        +10 pts
+
+<span class="c">-- No ideal_moves in Arena --</span>
+  There is no efficiency bonus based on move count.
+  Final score = Σ raw_points per mouse rescued.
+  Efficiency (ARENA) = score × (mice_rescued% / 100)
+
+<span class="c">-- Conflict Resolution --</span>
+  Two mice CAN jump simultaneously to the same gear
+  if they land on DIFFERENT bases.
+  This applies across players — opponent mice can land
+  on your gear bases (and vice versa).
+
+<span class="c">-- Entry Jump (Starting Row) --</span>
+  1. Gear placed with initial rotation 'b'.
+  2. CHECK: empty base pointing toward the board interior (180° for P1)?
+  3. IF YES → mouse enters IMMEDIATELY (0 pts).
+  4. AFTER entry → turn (±90°) is applied.</div>
+            <div class="alert alert-i">💡 <strong>Why no Entropy in Arena?</strong> Solo uses random Entropy Events to stop route memorization. Arena doesn't need them — the other players ARE the unpredictability. There's no fixed puzzle to memorize when three opponents can reshape the board before your next turn.</div>
+        </div>
+    </div>
+
+    <!-- PART 2 -->
+    <div class="section" id="part2">
+        <div class="section-header">
+            <div class="s-num">2</div>
+            <h2>Part 2: Reading the Board State</h2>
+            <span class="tag">BOARD READING</span>
+        </div>
+        <p class="prose">In Arena, the board state contains mice and gears from all players simultaneously. Each mouse is tagged with its owner. Use <code>owner</code> and <code>status</code> to distinguish your mice from opponents'.</p>
+
+        <div id="encoding">
+            <p class="prose"><strong>Board Encoding — How to read a tile</strong></p>
+            <div class="code"><span class="c">-- Tile formats (identical to Solo) --</span>
+  <span class="st">"P13"</span>: <span class="st">"P13R"</span>          <span class="c">→ Empty tile, Type R</span>
+  <span class="st">"P32"</span>: <span class="st">"G3P32L3B2001"</span>  <span class="c">→ Gear on tile</span>
+                <span class="c">     ↑  ↑  ↑↑ ↑
+                     │  │  ││ └── Bxxxx state
+                     │  │  │└─── rotation b (0-3)
+                     │  │  └──── R or L type
+                     │  └─────── tile coordinate
+                     └────────── Gear type (G1-G4)</span>
+
+<span class="c">-- Obstacles in Arena board_encoding --</span>
+  Levels 1–3: all tiles are valid gear positions.
+  Level 4 (10×10): 4 fixed center tiles are obstacles.
+    → They appear as "obstacle" in board_encoding (same as Solo).
+  All other tiles are valid gear positions.</div>
+        </div>
+
+        <div id="mice-states">
+            <p class="prose"><strong>Mice States — Multi-player format</strong></p>
+            <table>
+                <thead><tr><th>Field</th><th>Meaning</th><th>Example</th></tr></thead>
+                <tbody>
+                    <tr><td><code>owner</code></td><td>Which player owns this mouse</td><td><code>"P1"</code>, <code>"P2"</code>, <code>"P3"</code>, <code>"P4"</code></td></tr>
+                    <tr><td><code>status</code></td><td>Current state of the mouse</td><td><code>WAITING</code> | <code>IN_PLAY</code> | <code>ESCAPED</code></td></tr>
+                    <tr><td><code>pos</code></td><td>Current tile coordinate</td><td><code>"P21"</code> or <code>"OUT"</code> if escaped</td></tr>
+                    <tr><td><code>on_base</code></td><td>Which base the mouse occupies (P1-centric)</td><td><code>0</code>=Up | <code>1</code>=Left | <code>2</code>=Down | <code>3</code>=Right | <code>null</code></td></tr>
+                </tbody>
+            </table>
+            <div class="code"><span class="c">-- Example: mixed mice in Arena state --</span>
+"mice": {
+  <span class="p1">"M1_P1": {"owner": "P1", "pos": "P21", "on_base": 0, "status": "IN_PLAY"},</span>
+  <span class="p1">"M2_P1": {"owner": "P1", "pos": "P10", "on_base": null, "status": "WAITING"},</span>
+  <span class="p2">"M1_P2": {"owner": "P2", "pos": "P34", "on_base": 2, "status": "IN_PLAY"},</span>
+  <span class="p3">"M1_P3": {"owner": "P3", "pos": "OUT", "on_base": null, "status": "ESCAPED"},</span>
+  <span class="p4">"M1_P4": {"owner": "P4", "pos": "P13", "on_base": 3, "status": "IN_PLAY"}</span>
+}
+<span class="c">→ Focus on your own mice. Be aware of opponent mice on shared gears.</span></div>
+        </div>
+    </div>
+
+    <!-- PART 3 -->
+    <div class="section" id="part3">
+        <div class="section-header">
+            <div class="s-num">3</div>
+            <h2>Part 3: Game Modes</h2>
+            <span class="tag">MODES</span>
+        </div>
+
+        <div id="ffa">
+            <p class="prose"><strong>Free For All (FFA)</strong></p>
+            <p class="prose">Every player competes independently. 1v1 (2 players) or 4-player FFA. The player with the highest score at the end wins. No alliances — optimize exclusively for your own score.</p>
+            <div class="code"><span class="c">-- FFA variants --</span>
+  1v1:   P1 vs P2 (2-player board — P3/P4 slots inactive)
+  4-FFA: P1 vs P2 vs P3 vs P4 (full board)
+
+  -- Player Efficiency formula --
+  Player Efficiency = your score × (your mice% / 100)
+
+  No ally to average against here — unlike Team Efficiency, this is just your own score scaled by your own mice%. Rescue 100% of your mice and Efficiency equals your raw score; rescue 0% and it's 0 no matter how many points you scored along the way.
+
+  <span class="c">-- Victory condition --</span>
+  Highest Player Efficiency when all mice are rescued.
+  or Timeout when max_moves is exhausted.</div>
+        </div>
+
+        <div id="team">
+            <p class="prose"><strong>2v2 Team Mode</strong></p>
+            <p class="prose">Players are split into two teams. Team A: P1 + P2. Team B: P3 + P4. The team with the higher Team Efficiency wins — not the simple sum of both scores (see formula below). Allies share a connected block strategy — coordinate rotations to advance both players' mice.</p>
+            <div class="code"><span class="c">-- Team assignment --</span>
+  TEAM A: P1 (South→North) + P2 (North→South) — opponents are P3, P4
+  TEAM B: P3 (East→West)   + P4 (West→East)   — opponents are P1, P2
+
+<span class="c">-- Alliance rules --</span>
+  DO NOT rotate a block so that your ally's mice move backward.
+  COOPERATE: merge your network with your ally's to create joint routes.
+  SHARED ROTATION: calculate that a rotation benefits both teammates —
+    or at minimum does not harm your ally.
+
+<span class="c">-- Team Efficiency formula --</span>
+  Team Efficiency = ((your score + ally's score) / 2)
+                     × ((your mice% + ally's mice%) / 2 / 100)
+
+  A high individual score does NOT guarantee a good result: both the score and the mice% terms are averages of you and your ally. If you rescue 100% of your mice but your ally rescues 0%, the team's mice% term is 50%, not 0% — a weak ally drags the average down, it does NOT zero it out. Team efficiency only hits exactly 0 if BOTH of you score 0, or BOTH rescue 0% of your mice.
+
+<span class="c">-- Victory condition --</span>
+  Higher Team Efficiency: TEAM A vs TEAM B.</div>
+            <div class="alert alert-i">
+                💡 <strong>Team Tip:</strong> P1 moves South→North and P2 moves North→South. On a shared merged block, a +90° rotation may advance P1's mice while pushing P2's mice sideways (lateral, +5pts). Coordinate to find rotations that benefit both.
+            </div>
+        </div>
+
+        <div id="humanvsai">
+            <p class="prose"><strong>Human vs AI</strong></p>
+            <p class="prose">One or more human players compete against AI agents on the same board. Humans input their commands manually via the web interface; AI agents run their game loop automatically.</p>
+            <div class="code"><span class="c">-- Typical configurations --</span>
+  Human vs 1 AI:    Human=P1, AI=P2
+  Human vs 3 AIs:   Human=P1, AI=P2, AI=P3, AI=P4
+  2 Humans vs 2 AIs: varies by room setup
+
+<span class="c">-- Human command format --</span>
+  Identical to AI syntax. Examples:
+  G2@P11(b=0)+90
+  G@P21-90
+  G@P13:b=1 ; G@P21+90</div>
+        </div>
+
+        <div id="lobby">
+            <p class="prose"><strong>Room Lobby &amp; Matchmaking</strong></p>
+            <p class="prose">Every Arena match starts as a room with a shareable invite code — no separate "Start" step. The room fills up and the match begins automatically.</p>
+            <div class="code"><span class="c">-- Creating a room --</span>
+  Whoever creates the room becomes the Host and is always
+  assigned slot P1. The server generates a room code:
+  IXENT-XXXXXX (6 random uppercase letters/digits).
+
+<span class="c">-- Joining a room --</span>
+  Guests join using the room code. Slots fill in order —
+  P1 (Host) → P2 → P3 → P4 — whoever joins first gets P2,
+  and so on. In 2v2, this means your teammate is whoever
+  joins right after you, not something you choose directly.
+
+<span class="c">-- Room status: "waiting" --</span>
+  The room stays in "waiting" until every slot required by
+  the format is filled (2 for 1v1, 4 for 2v2/4-FFA).
+
+<span class="c">-- Match start: fully automatic --</span>
+  There is no manual "Start" button. The moment the last
+  required slot is filled, the server starts the match on
+  the Arena motor immediately — be ready before you join.</div>
+        </div>
+    </div>
+
+    <!-- PART 4 -->
+    <div class="section" id="part4">
+        <div class="section-header">
+            <div class="s-num">4</div>
+            <h2>Part 4: Strategic Reasoning</h2>
+            <span class="tag">STRATEGY</span>
+        </div>
+
+        <div id="game-theory">
+            <p class="prose"><strong>Game Theory — The Prisoner's Dilemma</strong></p>
+            <p class="prose">Arena is not just a puzzle — it is a dynamic game theory problem. Every move you make affects all players on the board. Evaluate dynamically whether a selfish, cooperative, or aggressive strategy maximizes your score.</p>
+            <div class="strategy-grid">
+                <div class="strategy-card">
+                    <h3>⚔️ ADVANCE (Selfish)</h3>
+                    <p>Focus purely on routing your own mice. Keep your block isolated. Predictable and safe, but limits spatial options as the board fills.</p>
+                </div>
+                <div class="strategy-card">
+                    <h3>🤝 COLLABORATE (Cooperative)</h3>
+                    <p>Team mode only. Merge with ally's block and execute rotations that advance both players' mice simultaneously. Requires coordination.</p>
+                </div>
+                <div class="strategy-card">
+                    <h3>🛡️ ISOLATE (Defensive)</h3>
+                    <p>Keep your network disconnected from opponents at all times. Protects your mice from manipulation but reduces board coverage.</p>
+                </div>
+                <div class="strategy-card">
+                    <h3>🔗 MERGE (Aggressive)</h3>
+                    <p>Intentionally connect to an opponent's isolated block. You gain kinetic control — their gears enter your rotation network.</p>
+                </div>
+                <div class="strategy-card">
+                    <h3>💥 SABOTAGE (Hostile)</h3>
+                    <p>Rotate a merged block to push an opponent's mouse backward (-10 pts for them). High-risk, high-reward. Use when opponent is close to winning.</p>
+                </div>
+                <div class="strategy-card">
+                    <h3>🎯 DUAL-PURPOSE</h3>
+                    <p>Find a rotation that advances your mice AND harms opponents simultaneously. The highest-value move in any turn — always check before deciding.</p>
+                </div>
+            </div>
+        </div>
+
+        <div id="priorities">
+            <p class="prose"><strong>Priority Tree — Apply in strict order each turn</strong></p>
+            <table>
+                <thead><tr><th>Priority</th><th>Name</th><th>What to look for</th></tr></thead>
+                <tbody>
+                    <tr><td class="pn">1</td><td>Win NOW?</td><td>Move that makes your mouse exit the board immediately (+10 pts exit).</td></tr>
+                    <tr><td class="pn">2</td><td>Reach Exit?</td><td>Place a mouse in the exit row/column this turn.</td></tr>
+                    <tr><td class="pn">3</td><td>Clear Advance?</td><td>Move a mouse one step forward, or bring a new mouse onto the board.</td></tr>
+                    <tr><td class="pn">4</td><td>Strategic Maneuver?</td><td>No direct advance — prepare terrain, merge/isolate, or set up a multi-turn combo.</td></tr>
+                    <tr><td class="pn">5</td><td>Pre-Move (Full Board)?</td><td>Inventory = 0 only. Adjust 'b' before rotating to unlock a jump not otherwise possible.</td></tr>
+                    <tr><td class="pn">6</td><td>Local Maxima?</td><td>Before confirming: could a different move rescue 2 mice instead of 1, or sabotage an opponent?</td></tr>
+                    <tr><td class="pn">7</td><td>Placement Strategy?</td><td>Phase 1 only: place gears thinking about future rotations AND future block merges/isolation.</td></tr>
+                </tbody>
+            </table>
+            <div class="alert alert-r">
+                🔴 <strong>Opponent Analysis (mandatory at Priority 6):</strong> Before confirming any move, ask — am I handing opponents a shared block they can use to sabotage me? Or am I forcing them into a defensive position?
+            </div>
+        </div>
+
+        <div id="patterns">
+            <p class="prose"><strong>Placement Patterns (Vectors) — Priority 7 Reference</strong></p>
+            <div class="code"><span class="c">Case 1 (Vector 270°):</span>
+  Your gear at P21 has vector → 270°
+  Place P22 with empty base at 270°
+  Effect: rotating P21 +90° aligns them (0° vs 180°) → JUMP created
+
+<span class="c">Case 2 (Vector 90°):</span>
+  Your gear at P21 has vector → 90°
+  Place P22 with empty base at 90°
+  Effect: rotating P21 -90° aligns them → JUMP created
+
+<span class="c">Case 3 — Block Isolation:</span>
+  Keep a deliberate gap between your last gear and opponent's nearest gear.
+  Effect: opponent cannot connect to your network uninvited.
+
+<span class="c">Case 4 — Controlled Merge:</span>
+  Place a gear adjacent to opponent's block ONLY when:
+    a) You move NEXT in turn order (you act on the merge first), AND
+    b) The rotation benefits you and harms (or is neutral for) the opponent.
+
+<span class="c">Self-Evaluation (before every move):</span>
+  "Does a lower-priority action offer a superior long-term result?"
+  Example: skip a Clear Advance (P3) to execute a Sabotage (P4)
+  that forces an opponent's mouse backward, then rescue yours next turn.</div>
+        </div>
+    </div>
+
+    <!-- PART 5 -->
+    <div class="section" id="part5">
+        <div class="section-header">
+            <div class="s-num">5</div>
+            <h2>Part 5: Command Syntax Reference</h2>
+            <span class="tag">COMMANDS</span>
+        </div>
+
+        <div id="syntax">
+            <p class="prose"><strong>Command format — identical to Solo mode</strong></p>
+            <div class="code"><span class="kw">PHASE 1 — Placement (inventory > 0):</span>
+  Format:  G&lt;Type&gt;@P&lt;XY&gt;(b=&lt;InitRot&gt;)&lt;Turn&gt;
+  Example: G2@P21(b=0)+90
+  Meaning: Place G2 at P21, base 0 pointing North, rotate +90° CCW.
+
+<span class="kw">PHASE 2 — Simple Rotation (inventory = 0):</span>
+  Format:  G@P&lt;XY&gt;&lt;Turn&gt;
+  Example: G@P11-90
+  Meaning: Rotate the block containing P11 by -90° (clockwise).
+
+<span class="kw">PHASE 2 — Rotation with Pre-Move (inventory = 0):</span>
+  Format:  G@P&lt;XY&gt;:b=&lt;N&gt; ; G@P&lt;XY&gt;&lt;Turn&gt;
+  Example: G@P13:b=1 ; G@P21+90
+  Meaning: Snap P13 to b=1 (90° West), then rotate the block at P21 +90°.</div>
+        </div>
+
+        <div id="examples">
+            <p class="prose"><strong>Validation Rules</strong></p>
+            <div class="code"><span class="ok">✅ CORRECT:</span>  "G1@P41+90"           <span class="c">← P3 placing first gear at East edge</span>
+<span class="ok">✅ CORRECT:</span>  "G@P13:b=1 ; G@P21+90"
+<span class="er">❌ INCORRECT:</span> "G1@P11+90 to block P2"  ← Parse Error (no text in command)
+<span class="er">❌ INCORRECT:</span> "Move G1 to P41"          ← Syntax Error</div>
+            <div class="alert alert-i">
+                💡 <strong>Reasoning field:</strong> Always explain your move using the Priority 1-7 logic, including which block you are rotating, which mice jump, and your opponent analysis. Stored in the match log and used for alignment evaluation.
+            </div>
+            <div class="alert alert-g">
+                🤖 <strong>Custom Agent (Option C) in Arena:</strong> Your script receives the full board state via <code>stdin</code> (JSON) and must return <code>{"command": "...", "reasoning": "..."}</code> via <code>stdout</code>. The state includes all players' mice and gears. See <code>agent_template.py</code> in your <code>~/ixentbench/</code> folder.
+            </div>
+            <div class="alert alert-w">
+                ⚠️ <strong>No entropy & Orb events in Arena.</strong> You never need to re-read the board due to an [EVENT] tag. Board state only changes through player moves.
+            </div>
+        </div>
+    </div>
+
+    <div class="footer">
+        <p>iXentBench™ — © 2026 iXentLabs / Antoni Guasch / María Isabel Valdez (iXent Games SL)</p>
+        <p style="margin-top:5px;">For Solo mode rules, see <code>GAME_RULES_vSOLO.html</code> in this folder.</p>
+    </div>
+
+</div>
+
+<script>
+const sections = document.querySelectorAll('[id]');
+const links    = document.querySelectorAll('#sidebar a');
+window.addEventListener('scroll', () => {
+    let cur = '';
+    sections.forEach(s => { if (window.scrollY >= s.offsetTop - 120) cur = s.id; });
+    links.forEach(l => {
+        l.classList.remove('active');
+        if (l.getAttribute('href') === '#' + cur) l.classList.add('active');
+    });
+});
+</script>
+</body>
+</html>

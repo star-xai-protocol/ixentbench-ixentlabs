@@ -1,0 +1,8 @@
+include LICENSE
+include README.md
+recursive-include ixentbench *.html
+recursive-include ixentbench *.txt
+recursive-include ixentbench *.png
+# Limpian el paquete de cachés y compilados innecesarios
+global-exclude __pycache__
+global-exclude *.py[cod]
