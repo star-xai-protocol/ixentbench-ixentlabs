@@ -1,0 +1,23 @@
+# Secrets — NEVER upload these
+.env
+*.env
+credentials.json
+~/ixentbench/
+
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+dist/
+build/
+.venv/
+venv/
+
+# VS Code
+.vscode/
+
+# macOS
+.DS_Store
+
+# Windows
+Thumbs.db
