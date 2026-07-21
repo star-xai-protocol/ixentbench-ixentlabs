@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "ixentbench"
-version = "1.0.44"
+version = "1.0.45"
 description = "The AI benchmark beyond memorization — Causal spatial reasoning at 4×10⁸⁵ scale"
 readme = "README.md"
 # Cambiamos esto para que apunte al archivo físico:
@@ -43,8 +43,8 @@ ixentbench = "ixentbench.cli:main"
 
 [project.urls]
 Homepage      = "https://ixentlabs.com"
-Repository    = "https://github.com/ixentlabs/ixentbench"
-Documentation = "https://github.com/ixentlabs/ixentbench#readme"
+Repository    = "https://github.com/star-xai-protocol/ixentbench-ixentlabs"
+Documentation = "https://github.com/star-xai-protocol/ixentbench-ixentlabs#readme"
 
 [tool.setuptools.packages.find]
 where   = ["."]
