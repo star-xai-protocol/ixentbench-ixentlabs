@@ -1,41 +1,75 @@
 iXentBench™ NON-COMMERCIAL SOURCE LICENSE
+Version 1.0 — 3 August 2026
 
-Copyright (c) 2026 iXentLabs / Antoni Guasch / María Isabel Valdez (iXent Games SL).
-All rights reserved.
+Copyright (c) 2026 iXent Games S.L. ("iXentLabs"). All rights reserved.
+Authors: Antoni Guasch, María Isabel Valdez.
 
-This software and associated documentation files (the "Software") are copyrighted
-material. The intellectual property rights of the mechanics, design, name, and concept
-derived from the original physical board game and digital applications belong
-exclusively to the authors.
+1. DEFINITIONS
 
-Permission is hereby granted, free of charge, to any person obtaining a copy of this
-Software, to deal in the Software without restriction solely for academic research,
-educational, and non-commercial personal purposes, including the rights to use, copy,
-modify, and merge copies of the Software, subject to the following conditions:
+"Software" means the source code, configuration files and accompanying
+documentation published in this repository.
 
-1. The above copyright notice and this permission notice shall be included in all
-   copies or substantial portions of the Software.
+"Game" means the rules, mechanics, design, name and concept of Caps i Caps©,
+which are protected separately and are NOT licensed by this document. No right
+over the Game is granted here, expressly or by implication.
 
-2. Any publication, paper, or presentation making use of the Software must include
-   an appropriate citation to iXentBench™ and iXentLabs.
+"Commercial Purpose" means any use intended for or directed toward commercial
+advantage or monetary compensation, including:
+   a) selling, licensing, renting or otherwise distributing the Software for a
+      fee;
+   b) providing the Software, or any service derived from it, to third parties
+      in exchange for financial compensation;
+   c) using the Software to evaluate, train or benchmark AI models where the
+      results are used in the development, marketing or sale of a commercial
+      product or service;
+   d) integrating the Software, in whole or in part, into a commercial product
+      or service.
 
-COMMERCIAL RESTRICTION: The Software may not be used, in whole or in part, for any
-Commercial Purpose by any corporation, business entity, organization, or private
-individual. "Commercial Purpose" includes, without limitation:
+Publicly funded or industry-sponsored academic research is NOT a Commercial
+Purpose, provided the results are published openly and are not used directly
+in the development or marketing of a commercial product.
 
-   a) Selling, licensing, or renting the Software.
-   b) Providing the Software as a service (SaaS) to third parties in exchange for
-      financial compensation.
-   c) Using the Software to evaluate, train, or benchmark Artificial Intelligence
-      models that serve an ultimate commercial or corporate purpose.
-   d) Integrating the Software into a larger commercial product or service.
+2. GRANT
 
-Any commercial use requires a separate, written license agreement ("Commercial
-License") explicitly granted by the copyright holders.
+Subject to the conditions below, iXentLabs grants you a worldwide,
+royalty-free, non-exclusive, non-transferable licence to use, copy, modify and
+merge the Software solely for academic research, educational and
+non-commercial personal purposes.
 
-DISCLAIMER: THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS
-OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS
-FOR A PARTICULAR PURPOSE, AND NON-INFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR
-COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES, OR OTHER LIABILITY, WHETHER IN
-AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH
-THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+This licence does NOT grant the right to distribute, publish, sublicense or
+make the Software available to third parties, whether modified or unmodified.
+
+3. CONDITIONS
+
+3.1 This copyright notice and licence text must be included in all copies or
+    substantial portions of the Software.
+
+3.2 Any publication, paper or presentation making use of the Software must
+    cite iXentBench™ and iXentLabs.
+
+4. COMMERCIAL LICENCE
+
+Any Commercial Purpose requires a separate written agreement granted by
+iXent Games S.L. Requests: contact@ixentlabs.com
+
+5. TERMINATION
+
+This licence terminates automatically if you breach any of its terms. On
+termination you must cease all use and destroy all copies in your possession.
+Sections 1, 6 and 7 survive termination.
+
+6. DISCLAIMER
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NON-INFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR ITS USE.
+
+7. GOVERNING LAW
+
+This licence is governed by the laws of Spain. Any dispute shall be submitted
+to the courts of Barcelona, Spain.
+
+iXent Games S.L. · contact@ixentlabs.com · https://ixentlabs.com
